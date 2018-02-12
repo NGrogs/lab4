@@ -17,6 +17,18 @@ void List::insertBefore(Node *loc, const SimpleString &d)
 		Node *newnode = new Node(d, nullptr);
 		head = newnode;
 	}
+	else if(loc == nullptr)
+	{
+		cout << "cannot insert before nullptr" << endl;
+	}
+	else if (head == loc)
+	{
+		Node *current = head;
+		Node *newnode = new Node(d, head);
+		newnode->next = current;
+		head = newnode;
+		current->next = nullptr;
+	}
 	else
 	{
 		// loop until current->next == *loc
@@ -43,6 +55,10 @@ void List::insertAfter(Node *loc, const SimpleString &d)
 	{
 		Node *newnode = new Node(d, nullptr);
 		head = newnode;
+	}
+	else if (loc == nullptr)
+	{
+		cout << "cannot insert after nullptr" << endl;
 	}
 	else
 	{
@@ -180,26 +196,33 @@ void List::erase(Node *loc)
 	{
 		cout << "Cannot delete from empty node" << endl;
 	}
-	Node *current = head;
-
-	//move to node before selected node
-	while (current->next != loc)
+	else if (loc == head)
 	{
-		current = current->next;
+		delete head;
+		head = nullptr;
 	}
+	else 
+	{
+		Node *current = head;
 
-	// get location of node to delete
-	Node *temp = current->next;
+		//move to node before selected node
+		while (current->next != loc)
+		{
+			current = current->next;
+		}
 
-	// adjust the list
-	current->next = current->next->next;
+		// get location of node to delete
+		Node *temp = current->next;
+
+		// adjust the list
+		current->next = current->next->next;
 
 
-	cout << "1 node deleted (" << temp->data->characters << ")"<< endl;
-	// delete the node
-	delete temp;
+		cout << "1 node deleted (" << temp->data->characters << ")"<< endl;
+		// delete the node
+		delete temp;
 	
-	
+	}
 
 }
 
@@ -266,4 +289,28 @@ void List::displayToConsole()
 		current = current->next;
 	}
 	cout << endl;
+}
+
+
+void List::Print() {
+	static int testNum = 0;
+	testNum++;
+
+	Node *cur = head;
+	std::cout << std::endl << "____" << testNum << "___" << std::endl;
+	while (cur != nullptr)
+	{
+		if (cur->data)
+		{
+			if (cur->data->characters)
+			{
+				std::cout << cur->data->characters << " ";
+
+
+			}
+		}
+		cur = cur->next;
+	}
+	std::cout << std::endl;
+
 }

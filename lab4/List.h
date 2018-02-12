@@ -30,4 +30,6 @@ public:
 
 	//print list method
 	void displayToConsole();
+
+	void Print();
 };
